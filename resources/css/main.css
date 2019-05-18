@@ -1,0 +1,49 @@
+@tailwind base;
+
+@tailwind components;
+
+@tailwind utilities;
+html {
+    font-family: 'Montserrat', sans-serif;
+}
+
+.icon {
+    display: inline-block;
+    stroke-width: 0;
+    height: 54px;
+    width: 54px;
+    stroke: currentColor;
+    fill: currentColor;
+}
+
+.icon-sm {
+    width: 1em;
+    height: 1em;
+}
+.icon-xs {
+    width: .5em;
+    height: .5em;
+}
+
+.left-divider:after {
+    content: '';
+    display: block;
+    width: 1px;
+    height: 90%;
+    box-shadow: -2px 0px 5px black;
+    position: absolute;
+    left: 0;
+    top: 5%;
+    margin-left: -1px;
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
+
+.card-move {
+  transition: transform .5s cubic-bezier(.55,0,.1,1);
+}
