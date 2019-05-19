@@ -63,7 +63,7 @@ jobs:
       #    path: tests/_output
       # - store_artifacts:
       #    path: tests/_output
-path: tests/_output
+      # path: tests/_output
   deploy:
     docker:
         - image: circleci/classic:edge
