@@ -20,5 +20,5 @@ Route::prefix('v1')->namespace('Api\V1')->group(function () {
 
     Route::apiResource('cards', 'CardController');
 
-    Route::get('/verify', 'CardController@verify');
+    Route::get('/identify', 'CardController@identify');
 });

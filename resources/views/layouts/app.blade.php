@@ -8,10 +8,6 @@
     <link href="https://fonts.googleapis.com/css?family=Montserrat|Open+Sans" rel="stylesheet">
     {{-- Style--}}
     <link rel="stylesheet" href="{{ mix('/css/main.css') }}">
-    <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/0.7.4/tailwind.min.css"
-    />
 </head>
 <body class="bg-grey-lighter">
 <div id="app">

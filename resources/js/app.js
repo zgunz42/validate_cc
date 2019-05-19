@@ -1,9 +1,10 @@
 import store from './store';
 import Vue from 'vue';
+import VModal from 'vue-js-modal';
 
-require('./bootstrap');
+Vue.use(VModal);
 
-window.Vue = Vue;
+// window.Vue = Vue;
 
 
 const files = require.context('./', true, /\.vue$/i);

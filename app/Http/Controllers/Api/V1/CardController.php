@@ -20,7 +20,7 @@ class CardController extends Controller
    * Validating CreditCard Number and return information about the card
    * like provider and other info
    * */
-  public function verify(Request $request)
+  public function identify(Request $request)
   {
     $cardNumber = $request->get('card_number');
 

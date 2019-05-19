@@ -25,6 +25,11 @@ html {
     height: .5em;
 }
 
+.card-content {
+  min-height: 270px;
+}
+
+
 .left-divider:after {
     content: '';
     display: block;
@@ -37,13 +42,3 @@ html {
     margin-left: -1px;
 }
 
-.fade-enter-active, .fade-leave-active {
-  transition: opacity .5s;
-}
-.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
-  opacity: 0;
-}
-
-.card-move {
-  transition: transform .5s cubic-bezier(.55,0,.1,1);
-}

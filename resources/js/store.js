@@ -1,5 +1,10 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import remove from 'lodash/remove';
+import findIndex from 'lodash/findIndex';
+import find from 'lodash/find';
+import split from 'lodash/split';
+import client from './api/client';
 
 Vue.use(Vuex);
 
@@ -26,13 +31,13 @@ const mutations = {
   },
   ADD_CARD(state, {card}) {
     // join card into cards state
-    state.cards = [card, ...state.cards];
+    state.cards = [...state.cards, card];
   },
   DESTROY_CARD(state, {id}) {
-    state.cards = _.remove(state.cards, (card) => card.id !== id);
+    state.cards = remove(state.cards, (card) => card.id !== id);
   },
   UPDATE_CARD({cards}, {id, data}) {
-    let index = _.findIndex(cards, {id: id});
+    let index = findIndex(cards, {id: id});
     cards.splice(index, 1, data);
   },
   CLEAR_FORM(state) {
@@ -47,7 +52,7 @@ const mutations = {
     state.cardForm.targetId = null;
   },
   EDIT_CARD(state, {cardId}) {
-    let card = _.find(state.cards, (card) => card.id === cardId);
+    let card = find(state.cards, (card) => card.id === cardId);
     let expiresDate = new Date(card.expires_in * 1000);
     let expiresMonth = ("0" + (expiresDate.getMonth() + 1)).slice(-2);
     let expiresYear = expiresDate.getFullYear();
@@ -71,11 +76,12 @@ const actions = {
   async fetchCards({commit, state}) {
     try {
       let cards = [];
-      let response = await axios.get('cards');
+      let response = await client.get('cards');
       cards.push(...response.data['data']);
       commit('FETCH_CARDS', {cards});
+      return true;
     } catch (e) {
-      console.log(e);
+      return false;
     }
 
 
@@ -85,29 +91,29 @@ const actions = {
       let {isSubmit} = state.cardForm;
       if(!isSubmit) {
         let {data} = state.cardForm;
-        let [expires_month, expires_years] = _.split(data.expiresIn, '/');
-        console.log(_.split(data.expiresIn, '/'));
+        let [expires_month, expires_years] = split(data.expiresIn, '/');
         let params = {
           cardholder: data.cardholder,
           card_number: data.cardNumber,
           expires_in: `${expires_years}-${expires_month}-01`,
           cvc: data.cvc
         };
-        let response = await axios.post('cards', params);
+        let response = await client.post('cards', params);
         let card = response.data['data'];
         commit('ADD_CARD', {card});
         commit('CLEAR_FORM');
+        return true;
       }
     } catch (e) {
-      console.log(e.response);
+      return false;
     }
 
   },
   async updateCard({commit, state}) {
     try {
       let { data, targetId } = state.cardForm;
-      let [expires_month, expires_years] = _.split(data.expiresIn, '/');
-      let response = await axios.put(`cards/${targetId}`, {
+      let [expires_month, expires_years] = split(data.expiresIn, '/');
+      let response = await client.put(`cards/${targetId}`, {
         cardholder: data.cardholder,
         card_number: data.cardNumber,
         expires_in: `${expires_years}-${expires_month}-01`,
@@ -115,8 +121,9 @@ const actions = {
       });
       commit('UPDATE_CARD', {id: targetId, data: response.data['data'] });
       commit('CLEAR_FORM');
+      return true;
     }catch (e) {
-      console.log(e.response);
+      return false;
     }
   },
   async destroyCard({commit, state}, {id}) {
@@ -124,10 +131,11 @@ const actions = {
       if(id === state.cardForm.targetId) {
         commit('CLEAR_FORM');
       }
-      await axios.delete(`cards/${id}`);
+      await client.delete(`cards/${id}`);
       commit('DESTROY_CARD', {id});
+      return true;
     } catch (e) {
-      console.log(e);
+      return false;
     }
   }
 };

@@ -9,7 +9,7 @@ use App\Enums\CardType;
  */
 function cardIcon(int $cardType)
 {
-  $baseUrl = asset('storage/images/symbol-defs.svg');
+  $baseUrl = '/images/symbol-defs.svg';
   switch ($cardType) {
     case CardType::V:
       $iconName = 'icon-visa';
@@ -21,7 +21,7 @@ function cardIcon(int $cardType)
       $iconName = 'icon-american-express';
       break;
     default:
-      $iconName = 'icon-card-unknown';
+      $iconName = 'icon-unknown';
   }
   return "$baseUrl#$iconName";
 }
